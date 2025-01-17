@@ -1,6 +1,6 @@
 node {
-    def IMAGE = "wartesttrigger:version-${env.BUILD_ID}"
-    
+    def TAG = "version-${env.BUILD_ID}"
+    def IMAGE = "abmtestTrigger"
     
     stage('Clone') {
         checkout scm
@@ -11,12 +11,22 @@ node {
     }
     
     def img = stage('Build') {
-        docker.build("$IMAGE", '.')
+        docker.build("$IMAGE:$TAG", '.')
     }
     
     stage('Run') {
-        img.withRun("--name run-$BUILD_ID -p 8081:8080") { c ->
+        img.withRun("--name run-$BUILD_ID -p 8082:8080") { c ->
             sh 'docker ps'
         }
     }
+    
+    stage('Deploy Docker Container') {
+  
+        // Stop and remove any running container of the same name
+        sh "docker ps -q -f name=${IMAGE} | xargs -r docker stop | xargs -r docker rm"
+
+        // Run the Docker container
+        sh "docker run -d --name ${IMAGE} -p 8081:8080 ${IMAGE}:${TAG}"
+            
+        }    
 }

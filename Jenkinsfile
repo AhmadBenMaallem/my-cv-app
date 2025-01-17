@@ -1,6 +1,6 @@
 node {
     def TAG = "version-${env.BUILD_ID}"
-    def IMAGE = "abmtestTrigger"
+    def IMAGE = "abmtrigger"
     
     stage('Clone') {
         checkout scm

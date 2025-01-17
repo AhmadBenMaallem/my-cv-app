@@ -1,5 +1,6 @@
 node {
-    def IMAGE = "wartest:version-${env.BUILD_ID}"
+    def IMAGE = "wartesttrigger:version-${env.BUILD_ID}"
+    
     
     stage('Clone') {
         checkout scm

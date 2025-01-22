@@ -1,6 +1,7 @@
 node {
     def TAG = "version-${env.BUILD_ID}"
     def IMAGE = "abmtrigger"
+    def NETWORK_NAME="my-app-net"
     
     stage('Clone') {
         checkout scm
@@ -26,7 +27,7 @@ node {
         sh "docker ps -q -f name=${IMAGE} | xargs -r docker stop | xargs -r docker rm"
 
         // Run the Docker container
-        sh "docker run -d --name ${IMAGE} -p 8080:8080 ${IMAGE}:${TAG}"
+        sh "docker run -d --name ${IMAGE} -p 8080:8080 --network ${NETWORK_NAME} ${IMAGE}:${TAG}"
             
         }    
 }

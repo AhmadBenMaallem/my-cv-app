@@ -105,13 +105,15 @@
         </nav>
 
     <!-- Skills Section -->
-    <h1>Key Skills</h1>
+    <div class="container">
+    <h2>Key Skills</h2>
     <ul>
         <li>Cloud Platforms: AWS, Azure, Google Cloud</li>
         <li>DevOps: Jenkins, Docker, Kubernetes</li>
         <li>Big Data Technologies: Hadoop, Spark, Kafka</li>
         <li>Leadership & Team Mentoring</li>
     </ul>
+    </div>
 
 </body>
 </html>

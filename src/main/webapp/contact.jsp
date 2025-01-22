@@ -105,8 +105,10 @@
         </nav>
 
     <!-- Contact Section -->
-    <h1>Contact Me</h1>
+    <div class="container">
+    <h2>Contact Me</h2>
     <p>If you want to reach out for opportunities or discussions, please email me at <a href="mailto:ahmad.benmaallem@gmail.com">ahmad.benmaallem@gmail.com</a></p>
+    </div>
 
 </body>
 </html>

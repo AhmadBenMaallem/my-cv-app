@@ -11,60 +11,91 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f7f6;
-            color: #333;
+            background: url('assets/cloud.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
         }
+
         header {
-            background-color: #4CAF50;
-            color: white;
-            padding: 20px;
             text-align: center;
+            padding: 40px;
+            background-color: rgba(0, 0, 0, 0.5);
         }
+
         header img {
             border-radius: 50%;
             width: 150px;
             height: 150px;
             margin-bottom: 15px;
         }
+
+        header h1 {
+            margin: 10px 0;
+            font-size: 2em;
+        }
+
+        header p {
+            font-size: 1.2em;
+        }
+
         nav {
             text-align: center;
-            background-color: #333;
+            background-color: rgba(0, 0, 0, 0.8);
             padding: 10px;
         }
+
         nav a {
             color: white;
             padding: 14px 20px;
             text-decoration: none;
             display: inline-block;
         }
+
         nav a:hover {
             background-color: #ddd;
             color: black;
         }
+
         .container {
             width: 80%;
             margin: auto;
             padding: 20px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 8px;
         }
+
         footer {
-            background-color: #333;
+            background-color: rgba(0, 0, 0, 0.8);
             color: white;
             text-align: center;
             padding: 10px 0;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            color: #4CAF50;
+            text-align: center;
+        }
+
+        p {
+            font-size: 1.1em;
+            line-height: 1.6;
         }
     </style>
 </head>
 <body>
 
-    <!-- Header Section -->
+    <!-- Banner (Header) Section -->
     <header>
-        <!-- Display Profile Picture -->
         <img src="assets/profile.jpg" alt="Profile Picture">
         <h1>Welcome to My CV</h1>
         <p>Tech Lead at Nuxeo | Cloud | DevOps | Big Data</p>
     </header>
 
-    <!-- Navigation Section -->
+    <!-- Navigation Bar -->
     <nav>
         <a href="index.jsp">Home</a>
         <a href="about.jsp">About</a>
@@ -75,36 +106,34 @@
 
     <!-- Main Content Section -->
     <div class="container">
-        <!-- About Section -->
+        <!-- About Me Section -->
         <div class="section">
             <h2>About Me</h2>
             <p>I am a Tech Lead at Nuxeo with extensive experience in Cloud Development, DevOps, and Big Data. I thrive in fast-paced environments and love solving complex technical challenges. Below are some key areas of my expertise:</p>
         </div>
 
-        <!-- Skills Section -->
+        <!-- Cloud Section -->
         <div class="section">
-            <h2>Key Skills</h2>
-            <ul>
-                <li>Tech Lead Experience at Nuxeo</li>
-                <li>Cloud Development & Architecture</li>
-                <li>DevOps Practices & CI/CD</li>
-                <li>Big Data Solutions & Analytics</li>
-                <li>Leadership & Mentoring</li>
-            </ul>
+            <h2>Cloud</h2>
+            <p>My experience in cloud computing spans designing and implementing cloud solutions using platforms like AWS, Azure, and Google Cloud. I have hands-on experience in setting up scalable architectures, optimizing costs, and automating infrastructure with Infrastructure as Code (IaC) tools such as Terraform and AWS CloudFormation.</p>
         </div>
 
-        <!-- Contact Section -->
+        <!-- DevOps Section -->
         <div class="section">
-            <h2>Contact</h2>
-            <p>If you'd like to connect or discuss potential opportunities, feel free to reach out to me!</p>
-            <p>Email: <a href="mailto:your.email@example.com">your.email@example.com</a></p>
+            <h2>DevOps</h2>
+            <p>DevOps practices are central to my work. I implement Continuous Integration and Continuous Deployment (CI/CD) pipelines using tools like Jenkins, GitLab CI, and CircleCI. I also focus on automation, monitoring, and improving the developer workflow to ensure seamless collaboration between development and operations teams.</p>
         </div>
 
-        <!-- Download Section -->
+        <!-- Big Data Section -->
         <div class="section">
-            <h2>Download My CV</h2>
-            <p>You can download my detailed resume below:</p>
-            <a href="download.jsp">Download CV (PDF)</a>
+            <h2>Big Data</h2>
+            <p>In the Big Data field, I have experience working with large-scale data processing tools like Apache Hadoop, Spark, and Kafka. I have designed solutions for real-time data streaming, data warehousing, and batch processing, enabling businesses to extract valuable insights from large datasets in an efficient manner.</p>
+        </div>
+
+        <!-- Nuxeo Section -->
+        <div class="section">
+            <h2>Nuxeo</h2>
+            <p>As a Tech Lead at Nuxeo, I have worked with the Nuxeo platform to deliver powerful enterprise content management solutions. I specialize in configuring and customizing Nuxeo to meet the unique needs of organizations, ensuring seamless integration with other systems, and optimizing workflows for better productivity and collaboration.</p>
         </div>
     </div>
 

@@ -60,7 +60,7 @@
             width: 80%;
             margin: auto;
             padding: 20px;
-            background-color: rgba(255, 255, 255, 0.7);
+            background-color: rgba(0, 0, 0, 0.7);
             border-radius: 8px;
         }
 
@@ -76,8 +76,8 @@
         }
 
         h2 {
-            color: #4CAF50;
-            text-align: center;
+            color: #ac2424;
+            text-align: left;
         }
 
         p {

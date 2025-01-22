@@ -4,7 +4,8 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>About Me - Tech Lead at Nuxeo</title>
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>My CV - Tech Lead</title>
         <style>
             body {
                 font-family: Arial, sans-serif;
@@ -14,25 +15,75 @@
                 background-size: cover;
                 color: #fff;
             }
+    
             header {
                 text-align: center;
                 padding: 40px;
                 background-color: rgba(0, 0, 0, 0.5);
             }
+    
             header img {
                 border-radius: 50%;
                 width: 150px;
                 height: 150px;
                 margin-bottom: 15px;
             }
+    
             header h1 {
                 margin: 10px 0;
                 font-size: 2em;
             }
+    
             header p {
                 font-size: 1.2em;
             }
-            /* (Rest of the styles remain the same) */
+    
+            nav {
+                text-align: center;
+                background-color: rgba(0, 0, 0, 0.8);
+                padding: 10px;
+            }
+    
+            nav a {
+                color: white;
+                padding: 14px 20px;
+                text-decoration: none;
+                display: inline-block;
+            }
+    
+            nav a:hover {
+                background-color: #ddd;
+                color: black;
+            }
+    
+            .container {
+                width: 80%;
+                margin: auto;
+                padding: 20px;
+                background-color: rgba(0, 0, 0, 0.7);
+                border-radius: 8px;
+            }
+    
+            footer {
+                background-color: rgba(0, 0, 0, 0.8);
+                color: white;
+                text-align: center;
+                padding: 10px 0;
+            }
+    
+            .section {
+                margin-bottom: 40px;
+            }
+    
+            h2 {
+                color: #ac2424;
+                text-align: left;
+            }
+    
+            p {
+                font-size: 1.1em;
+                line-height: 1.6;
+            }
         </style>
     </head>
     <body>
@@ -40,7 +91,7 @@
         <!-- Banner (Header) Section -->
         <header>
             <img src="assets/profile.jpg" alt="Profile Picture">
-            <h1>About Me</h1>
+            <h1>Welcome to My CV</h1>
             <p>Tech Lead at Nuxeo | Cloud | DevOps | Big Data</p>
         </header>
     

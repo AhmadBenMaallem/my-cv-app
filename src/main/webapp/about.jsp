@@ -107,7 +107,7 @@
     <!-- About Section Content -->
     <div class="container">
         <h2>About Me</h2>
-        <p>I am a Tech Lead at Nuxeo with extensive experience in Cloud Development, DevOps, and Big Data. I thrive in fast-paced environments and love solving complex technical challenges.</p>
+        <p>I am a Tech Lead Nuxeo with extensive experience in Cloud Development, DevOps, and Big Data. I thrive in fast-paced environments and love solving complex technical challenges.</p>
     </div>
 
     <!-- Footer Section -->

@@ -92,7 +92,7 @@
     <header>
         <img src="assets/profile.jpg" alt="Profile Picture">
         <h1>Welcome to My CV</h1>
-        <p>Tech Lead at Nuxeo | Cloud | DevOps | Big Data</p>
+        <p>Tech Lead Nuxeo | Cloud | DevOps | Big Data</p>
     </header>
 
     <!-- Navigation Bar -->

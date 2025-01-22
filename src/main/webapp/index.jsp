@@ -20,13 +20,31 @@
             padding: 20px;
             text-align: center;
         }
+        header img {
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            margin-bottom: 15px;
+        }
+        nav {
+            text-align: center;
+            background-color: #333;
+            padding: 10px;
+        }
+        nav a {
+            color: white;
+            padding: 14px 20px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        nav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
         .container {
             width: 80%;
             margin: auto;
             padding: 20px;
-        }
-        .section {
-            margin-bottom: 40px;
         }
         footer {
             background-color: #333;
@@ -40,9 +58,20 @@
 
     <!-- Header Section -->
     <header>
+        <!-- Display Profile Picture -->
+        <img src="assets/profile.jpg" alt="Profile Picture">
         <h1>Welcome to My CV</h1>
         <p>Tech Lead at Nuxeo | Cloud | DevOps | Big Data</p>
     </header>
+
+    <!-- Navigation Section -->
+    <nav>
+        <a href="index.jsp">Home</a>
+        <a href="about.jsp">About</a>
+        <a href="skills.jsp">Skills</a>
+        <a href="contact.jsp">Contact</a>
+        <a href="download.jsp">Download CV</a>
+    </nav>
 
     <!-- Main Content Section -->
     <div class="container">

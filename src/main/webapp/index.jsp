@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Welcome to My App</title>
-    <!-- Internal CSS for basic styling -->
+    <title>My CV - Tech Lead</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -18,7 +17,7 @@
         header {
             background-color: #4CAF50;
             color: white;
-            padding: 10px 20px;
+            padding: 20px;
             text-align: center;
         }
         .container {
@@ -26,30 +25,14 @@
             margin: auto;
             padding: 20px;
         }
-        .welcome-message {
-            font-size: 24px;
-            margin-bottom: 20px;
+        .section {
+            margin-bottom: 40px;
         }
         footer {
             background-color: #333;
             color: white;
             text-align: center;
             padding: 10px 0;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
-        }
-        .btn {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-top: 20px;
-            display: inline-block;
-        }
-        .btn:hover {
-            background-color: #45a049;
         }
     </style>
 </head>
@@ -57,24 +40,49 @@
 
     <!-- Header Section -->
     <header>
-        <h1>Welcome to My Web Application</h1>
+        <h1>Welcome to My CV</h1>
+        <p>Tech Lead at Nuxeo | Cloud | DevOps | Big Data</p>
     </header>
 
     <!-- Main Content Section -->
     <div class="container">
-        <div class="welcome-message">
-            <h2>Hello, <%= request.getParameter("username") != null ? request.getParameter("username") : "Guest" %>!</h2>
-            <p>We are glad to have you here.</p>
+        <!-- About Section -->
+        <div class="section">
+            <h2>About Me</h2>
+            <p>I am a Tech Lead at Nuxeo with extensive experience in Cloud Development, DevOps, and Big Data. I thrive in fast-paced environments and love solving complex technical challenges. Below are some key areas of my expertise:</p>
         </div>
 
-        <a href="./page1.jsp" class="btn">Go to Another Page</a>
+        <!-- Skills Section -->
+        <div class="section">
+            <h2>Key Skills</h2>
+            <ul>
+                <li>Tech Lead Experience at Nuxeo</li>
+                <li>Cloud Development & Architecture</li>
+                <li>DevOps Practices & CI/CD</li>
+                <li>Big Data Solutions & Analytics</li>
+                <li>Leadership & Mentoring</li>
+            </ul>
+        </div>
+
+        <!-- Contact Section -->
+        <div class="section">
+            <h2>Contact</h2>
+            <p>If you'd like to connect or discuss potential opportunities, feel free to reach out to me!</p>
+            <p>Email: <a href="mailto:your.email@example.com">your.email@example.com</a></p>
+        </div>
+
+        <!-- Download Section -->
+        <div class="section">
+            <h2>Download My CV</h2>
+            <p>You can download my detailed resume below:</p>
+            <a href="download.jsp">Download CV (PDF)</a>
+        </div>
     </div>
 
     <!-- Footer Section -->
     <footer>
-        <p>&copy; 2025 My Web Application. All rights reserved.</p>
+        <p>&copy; 2025 Tech Lead | Nuxeo. All rights reserved.</p>
     </footer>
 
 </body>
 </html>
-

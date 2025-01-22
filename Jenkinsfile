@@ -26,6 +26,8 @@ node {
         // Stop and remove any running container of the same name
         sh "docker ps --all -q -f name=${IMAGE} | xargs -r docker stop | xargs -r docker rm"
 
+        // Create netowrk if not exist
+        sh "docker network create ${NETWORK_NAME} || true "
         // Run the Docker container
         sh "docker run -d --name ${IMAGE} -p 8080:8080 --network ${NETWORK_NAME} ${IMAGE}:${TAG}"
             

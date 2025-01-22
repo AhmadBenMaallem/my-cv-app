@@ -24,7 +24,7 @@ node {
     stage('Deploy Docker Container') {
   
         // Stop and remove any running container of the same name
-        sh "docker ps -q -f name=${IMAGE} | xargs -r docker stop | xargs -r docker rm"
+        sh "docker ps --all -q -f name=${IMAGE} | xargs -r docker stop | xargs -r docker rm"
 
         // Run the Docker container
         sh "docker run -d --name ${IMAGE} -p 8080:8080 --network ${NETWORK_NAME} ${IMAGE}:${TAG}"

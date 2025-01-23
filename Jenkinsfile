@@ -38,7 +38,7 @@ node {
     stage('Add my app HTTP Conf') {
         sh "docker cp nginx/conf.d/my-app-80.conf nginx:/etc/nginx/conf.d/my-app.conf"
     
-         sh "docker-compose exec nginx nginx -s reload"
+         sh "docker-compose exec -T nginx nginx -s reload"
     }
 
 
@@ -51,7 +51,7 @@ node {
 
         sh "docker cp nginx/conf.d/my-app-443.conf nginx:/etc/nginx/conf.d/my-app.conf"
 
-        sh "docker-compose exec nginx nginx -s reload"
+        sh "docker-compose exec -T nginx nginx -s reload"
     }    
        
 }

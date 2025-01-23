@@ -35,7 +35,7 @@ node {
     }
 
     stage('Add Certif') {
-        sh "docker-compose run --rm certbot certonly --webroot -w /var/www/certbot -d abm-app.ddns.net"
+        sh "docker-compose run --rm certbot certonly --webroot -w /var/www/certbot -d abm-app.ddns.net --email ahmad.benmaallem@gmail.com --agree-tos --non-interactive"
     }
 
     stage('Add App conf and reload nginx') {

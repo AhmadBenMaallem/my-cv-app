@@ -23,6 +23,7 @@ node {
 
     stage('PRE-Deployment') {
         sh "sed -i 's|IMAGE_TAG|${IMAGE}:${TAG}|g' docker-compose.yml"
+        sh "mkdir -p ./data/certbot/conf ./data/certbot/www"
         
     }
 
@@ -40,7 +41,7 @@ node {
 
     stage('Add App conf and reload nginx') {
         sh "cp ./app-nginx-conf/my-app.conf ./nginx/conf.d/."
-        
+
         sh "docker-compose exec nginx nginx -s reload"
     }    
        

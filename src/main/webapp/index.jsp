@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
+<%@ page import="java.net.InetAddress" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -169,6 +170,7 @@
     <!-- Footer Section -->
     <footer>
         <p>&copy; 2025 Tech Lead | Nuxeo. All rights reserved.</p>
+        <p>Container Hostname: <%= InetAddress.getLocalHost().getHostName() %></p>
     </footer>
 
 </body>

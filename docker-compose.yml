@@ -17,7 +17,7 @@ services:
 
   myapp:
     image: IMAGE_TAG
-    container_name: myapp
+    #container_name: myapp
     #ports:
     #  - "8080:8080"
     networks:

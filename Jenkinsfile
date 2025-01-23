@@ -24,6 +24,7 @@ node {
     stage('PRE-Deployment') {
         sh "sed -i 's|IMAGE_TAG|${IMAGE}:${TAG}|g' docker-compose.yml"
         sh "mkdir -p ./data/certbot/conf ./data/certbot/www"
+        sh "chmod -R 777 ./nginx ./data"
         
     }
 

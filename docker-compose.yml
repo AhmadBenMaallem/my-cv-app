@@ -24,7 +24,7 @@ services:
       - my-app-net
 
   certbot:
-    image: certbot/certbot:3.1.0
+    image: certbot/certbot:v3.1.0
     container_name: certbot
     volumes:
       - /tmp/mydata/certbot/conf:/etc/letsencrypt

@@ -55,22 +55,19 @@ node {
     }
 
     stage('Clean Up Old App Builded Images') {
-         steps {
-            script {
-                // Get the list of all images tagged with the pattern 'abmtrigger:version-*'
-                def images = sh(script: "docker images --filter 'reference=abmtrigger:version-*' --format '{{.Repository}}:{{.Tag}}'", returnStdout: true).trim().split("\n")
+                  
+        // Get the list of all images tagged with the pattern 'abmtrigger:version-*'
+        def images = sh(script: "docker images --filter 'reference=abmtrigger:version-*' --format '{{.Repository}}:{{.Tag}}'", returnStdout: true).trim().split("\n")
             
-                // Get the currently used image tag (for the current build)
-                def currentImage = "${IMAGE}:${TAG}"
+        // Get the currently used image tag (for the current build)
+        def currentImage = "${IMAGE}:${TAG}"
 
-                // Remove old images except the current one
-                images.each { image ->
-                    if (image != currentImage) {
-                        sh "docker rmi $image || true"  // Remove old image, ignore errors if the image is in use
-                    }
-                }
+        // Remove old images except the current one
+        images.each { image ->
+            if (image != currentImage) {
+                sh "docker rmi $image || true"  // Remove old image, ignore errors if the image is in use
             }
-        }
+        }                    
     }
        
 }

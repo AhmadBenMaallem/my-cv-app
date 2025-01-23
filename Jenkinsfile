@@ -22,13 +22,12 @@ node {
     }
 
     stage('PRE-Deployment') {
-        sh "sed -i 's|IMAGE_TAG|${IMAGE}:${TAG}|g' docker-compose.yml"
-        sh "mkdir -p ./data/certbot/conf ./data/certbot/www"
-        sh "chmod -R 777 ./nginx ./data"
-        
+        sh "sed -i 's|IMAGE_TAG|${IMAGE}:${TAG}|g' docker-compose.yml"        
     }
 
     stage('Cleanup And Deploy') {
+
+        sh "rm -rf /tmp/mydata || true"
         // Ensure only one instance is running
         sh "docker-compose down"
         
@@ -36,12 +35,21 @@ node {
         sh "docker-compose up -d nginx"
     }
 
+    stage('Add my app HTTP Conf') {
+        sh "docker cp nginx/conf.d/my-app-80.conf nginx:/etc/nginx/conf.d/my-app.conf"
+    
+         sh "docker-compose exec nginx nginx -s reload"
+    }
+
+
     stage('Add Certif') {
+
         sh "docker-compose run --rm certbot certonly --webroot -w /var/www/certbot -d abm-app.ddns.net --email ahmad.benmaallem@gmail.com --agree-tos --non-interactive"
     }
 
     stage('Add App conf and reload nginx') {
-        sh "cp ./app-nginx-conf/my-app.conf ./nginx/conf.d/."
+
+        sh "docker cp nginx/conf.d/my-app-443.conf nginx:/etc/nginx/conf.d/my-app.conf"
 
         sh "docker-compose exec nginx nginx -s reload"
     }    

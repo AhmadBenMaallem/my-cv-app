@@ -138,7 +138,7 @@
         <!-- About Me Section -->
         <div class="section">
             <h2>About Me</h2>
-            <p>I am a Tech Lead at Nuxeo with extensive experience in Cloud Development, DevOps, and Big Data. I thrive in fast-paced environments and love solving complex technical challenges. Below are some key areas of my expertise:</p>
+            <p>I am a Tech Lead Nuxeo at Qualitified with extensive experience in Cloud Development, DevOps, and Big Data. I thrive in fast-paced environments and love solving complex technical challenges. Below are some key areas of my expertise:</p>
         </div>
 
         <!-- Cloud Section -->

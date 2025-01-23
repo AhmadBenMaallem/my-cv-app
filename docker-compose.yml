@@ -18,8 +18,8 @@ services:
   myapp:
     image: IMAGE_TAG
     container_name: myapp
-    ports:
-      - "8080:8080"
+    #ports:
+    #  - "8080:8080"
     networks:
       - my-app-net
 

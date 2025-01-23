@@ -42,6 +42,9 @@
             text-align: center;
             background-color: rgba(0, 0, 0, 0.8);
             padding: 10px;
+            display: flex; /* Use flexbox */
+            justify-content: center; /* Center the items horizontally */
+            flex-wrap: wrap; /* Allow wrapping of items */
         }
 
         nav a {

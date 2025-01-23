@@ -84,6 +84,32 @@
                 font-size: 1.1em;
                 line-height: 1.6;
             }
+
+            /* Define the animation */
+            @keyframes colorChange {
+              0% {
+                color: blue;
+              }
+              25% {
+                color: green;
+              }
+              50% {
+                color: red;
+              }
+              75% {
+                color: purple;
+              }
+              100% {
+                color: blue;
+              }
+            }
+
+            /* Apply the animation to the link */
+            a {
+                  text-decoration: none; /* Optional: remove underline */
+                  font-size: 1.5em; /* Optional: make the link bigger */
+                  animation: colorChange 3s infinite; /* Animation over 3 seconds, loops infinitely */
+            }
         </style>
     </head>
     <body>

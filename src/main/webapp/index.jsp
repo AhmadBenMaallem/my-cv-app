@@ -23,9 +23,9 @@
         }
 
         header img {
-            border-radius: 50%;
+            border-radius: 40%;
             width: 150px;
-            height: 150px;
+            height: 180px;
             margin-bottom: 15px;
         }
 

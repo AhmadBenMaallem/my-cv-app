@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    depends_on:
+      - myapp
+    networks:
+      - my-app-net
+
+  myapp:
+    image: IMAGE_TAG
+    container_name: myapp
+    ports:
+      - "8080:8080"
+    networks:
+      - my-app-net
+
+  certbot:
+    image: certbot/certbot:latest
+    container_name: certbot
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    networks:
+      - my-app-net
+
+networks:
+  my-app-net:
+    driver: bridge
+    name: my-app-net  # explicitly specify the network name

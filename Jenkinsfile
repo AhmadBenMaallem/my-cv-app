@@ -16,20 +16,32 @@ node {
     }
     
     stage('Run') {
-        img.withRun("--name run-$BUILD_ID -p 8082:8080") { c ->
+        img.withRun("--name run-$BUILD_ID") { c ->
             sh 'docker ps'
         }
     }
-    
-    stage('Deploy Docker Container') {
-  
-        // Stop and remove any running container of the same name
-        sh "docker ps --all -q -f name=${IMAGE} | xargs -r docker stop | xargs -r docker rm"
 
-        // Create netowrk if not exist
-        sh "docker network create ${NETWORK_NAME} || true "
-        // Run the Docker container
-        sh "docker run -d --name ${IMAGE} -p 8080:8080 --network ${NETWORK_NAME} ${IMAGE}:${TAG}"
-            
-        }    
+    stage('PRE-Deployment') {
+        sh "sed -i 's|IMAGE_TAG|${IMAGE}:${TAG}|g' docker-compose.yml"
+        
+    }
+
+    stage('Cleanup And Deploy') {
+        // Ensure only one instance is running
+        sh "docker-compose down"
+        
+        // Re-run with updated image
+        sh "docker-compose up -d nginx"
+    }
+
+    stage('Add Certif') {
+        sh "docker-compose run --rm certbot certonly --webroot -w /var/www/certbot -d abm-app.ddns.net"
+    }
+
+    stage('Add App conf and reload nginx') {
+        sh "cp ./app-nginx-conf/my-app.conf ./nginx/conf.d/."
+        
+        sh "docker-compose exec nginx nginx -s reload"
+    }    
+       
 }

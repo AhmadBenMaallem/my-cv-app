@@ -1,0 +1,119 @@
+# CI/CD Pipeline for My CV App
+
+This repository includes a Jenkinsfile that defines a CI/CD pipeline for automating the build, deployment, and management of the My CV App. Below is a breakdown of each stage in the pipeline and its purpose.
+
+## Pipeline Overview
+
+The pipeline is designed to:
+
+1. Clone the repository.
+2. Build the application using Maven.
+3. Create and manage Docker images.
+4. Deploy the application using Docker Compose.
+5. Configure Nginx for both HTTP and HTTPS.
+6. Obtain and manage SSL certificates with Certbot.
+7. Clean up unused Docker images to save resources.
+
+### Stages Breakdown
+
+#### 1. **Clone**
+The pipeline starts by checking out the code from the Git repository using Jenkins's `checkout scm` command. This ensures the latest code is always used.
+
+#### 2. **Maven Package**
+The application is built using Maven:
+```bash
+mvn package
+```
+This compiles the code and packages it into a deployable format.
+
+#### 3. **Build Docker Image**
+A Docker image is built using the current build ID to tag the version:
+```bash
+docker build -t abmtrigger:version-${BUILD_ID} .
+```
+The image is tagged with a unique version number based on the build ID.
+
+#### 4. **Run Docker Image**
+The newly built Docker image is tested by running it temporarily:
+```bash
+docker run --name run-${BUILD_ID} abmtrigger:version-${BUILD_ID}
+```
+The `docker ps` command is executed to verify the container is running correctly.
+
+#### 5. **PRE-Deployment**
+The `docker-compose.yml` file is updated to reference the new Docker image:
+```bash
+sed -i 's|IMAGE_TAG|abmtrigger:version-${BUILD_ID}|g' docker-compose.yml
+```
+
+#### 6. **Cleanup and Deploy**
+Before deploying, any previous temporary data is cleared, and the `docker-compose` services are restarted:
+```bash
+rm -rf /tmp/mydata || true
+docker-compose down
+docker-compose up -d nginx
+```
+
+#### 7. **Add HTTP Configuration**
+The pipeline configures Nginx by copying an HTTP configuration file to the Nginx container:
+```bash
+docker cp nginx/conf.d/my-app-80.conf nginx:/etc/nginx/conf.d/my-app.conf
+docker-compose exec -T nginx nginx -s reload
+```
+
+#### 8. **Add SSL Certificate**
+An SSL certificate is obtained using Certbot for the domain `abm-app.ddns.net`:
+```bash
+docker-compose run --rm certbot certonly \
+    --webroot -w /var/www/certbot \
+    -d abm-app.ddns.net \
+    --email ahmad.benmaallem@gmail.com \
+    --agree-tos \
+    --non-interactive
+```
+
+#### 9. **Add HTTPS Configuration and Reload Nginx**
+The pipeline adds an HTTPS configuration file to Nginx and reloads the server:
+```bash
+docker cp nginx/conf.d/my-app-443.conf nginx:/etc/nginx/conf.d/my-app.conf
+docker-compose exec -T nginx nginx -s reload
+```
+
+#### 10. **Clean Up Old Images**
+To save disk space, unused Docker images from previous builds are removed:
+```bash
+docker rmi <old-image> || true
+```
+Only the most recent image is kept.
+
+---
+
+## Key Environment Variables
+
+- `TAG`: Defines the version tag for the Docker image (e.g., `version-123`).
+- `IMAGE`: The base name of the Docker image (e.g., `abmtrigger`).
+- `NETWORK_NAME`: Specifies the Docker network used (e.g., `my-app-net`).
+
+## Additional Jenkinsfiles
+
+This repository contains multiple Jenkinsfiles, each serving a specific purpose:
+
+- **Jenkinsfile.docker**: Builds and runs the application using Docker.
+- **Jenkinsfile**: Builds the application with Docker and runs it using Docker Compose, written in Groovy syntax.
+- **Jenkinsfile (Pipeline Syntax)**: Builds the application with Docker and runs it using Docker Compose, written in pipeline syntax.
+- **Jenkinsfile-scale**: Scales a running application using Docker Compose.
+- **Jenkinsfile-mgmt**: Stop or down the environment.
+
+## How to Use the Pipeline
+
+1. Configure a Jenkins job and point it to this repository.
+2. Ensure the Jenkins server has access to Docker and Docker Compose.
+3. Add your domain and email details in the relevant sections for SSL setup.
+4. Trigger the Jenkins job to run the pipeline and deploy the application.
+
+---
+
+## Contact
+
+For any questions or feedback, feel free to reach out to [ahmad.benmaallem@gmail.com].
+

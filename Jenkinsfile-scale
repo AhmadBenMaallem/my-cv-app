@@ -17,7 +17,7 @@ pipeline {
                 script {
                     // List running containers and filter based on image name
                     def runningTag = sh(
-                        script: "docker ps --format '{{.Image}}' | grep -oP '${IMAGE}:\K.*'",
+                        script: "docker ps --format '{{.Image}}' | grep -oP '${IMAGE}:.*' | cut -d':' -f2",
                         returnStdout: true
                     ).trim()
                     

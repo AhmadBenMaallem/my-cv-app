@@ -1,0 +1,32 @@
+pipeline {
+    agent any
+    stages {
+
+        stage('Clone') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Scale my app') {
+            when {
+                expression {
+                    return params.NB_CONTAINERS?.isInteger() && params.NB_CONTAINERS.toInteger() > 0
+                }
+            }
+            steps {
+                script {
+                    sh "docker-compose scale myapp=${params.NB_CONTAINERS}"
+                }
+            }
+        }
+
+        stage('Reload Nginx Container') {
+            steps {
+                script {
+                    sh "docker-compose exec -T nginx nginx -s reload"
+                }
+            }
+        }
+    }
+}

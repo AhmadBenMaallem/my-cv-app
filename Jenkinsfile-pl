@@ -1,0 +1,98 @@
+pipeline {
+    agent any
+    environment {
+        TAG = "version-${env.BUILD_ID}"
+        IMAGE = "abmtrigger"
+        NETWORK_NAME = "my-app-net"
+    }
+    stages {
+        stage('Clone') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Maven package') {
+            steps {
+                sh 'mvn package'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    docker.build("${IMAGE}:${TAG}", '.')
+                }
+            }
+        }
+
+        stage('Run Docker Image') {
+            steps {
+                script {
+                    def img = docker.image("${IMAGE}:${TAG}")
+                    img.withRun("--name run-${env.BUILD_ID}") { c ->
+                        sh 'docker ps'
+                    }
+                }
+            }
+        }
+
+        stage('PRE-Deployment') {
+            steps {
+                sh "sed -i 's|IMAGE_TAG|${IMAGE}:${TAG}|g' docker-compose.yml"
+            }
+        }
+
+        stage('Cleanup And Deploy') {
+            steps {
+                script {
+                    sh "rm -rf /tmp/mydata || true"
+                    sh "docker-compose down"
+                    sh "docker-compose up -d nginx"
+                }
+            }
+        }
+
+        stage('Add HTTP Conf for My App') {
+            steps {
+                sh "docker cp nginx/conf.d/my-app-80.conf nginx:/etc/nginx/conf.d/my-app.conf"
+                sh "docker-compose exec -T nginx nginx -s reload"
+            }
+        }
+
+        stage('Add SSL Certificate') {
+            steps {
+                sh """
+                docker-compose run --rm certbot certonly \
+                    --webroot -w /var/www/certbot \
+                    -d abm-app.ddns.net \
+                    --email ahmad.benmaallem@gmail.com \
+                    --agree-tos \
+                    --non-interactive
+                """
+            }
+        }
+
+        stage('Add HTTPS Conf and Reload Nginx') {
+            steps {
+                sh "docker cp nginx/conf.d/my-app-443.conf nginx:/etc/nginx/conf.d/my-app.conf"
+                sh "docker-compose exec -T nginx nginx -s reload"
+            }
+        }
+
+        stage('Clean Up Old Images') {
+            steps {
+                script {
+                    def images = sh(script: "docker images --filter 'reference=${IMAGE}:version-*' --format '{{.Repository}}:{{.Tag}}'", returnStdout: true).trim().split("\n")
+                    def currentImage = "${IMAGE}:${TAG}"
+
+                    images.each { image ->
+                        if (image != currentImage) {
+                            sh "docker rmi $image || true"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

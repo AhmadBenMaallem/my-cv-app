@@ -2,7 +2,10 @@ pipeline {
     agent any
     environment {
         IMAGE = "abmtrigger"
-        TAG = "latest" // Default value for TAG
+        STACK_NAME = "trigger_my-cv-app_deployment"
+    }
+    parameters {
+        string(name: 'NB_CONTAINERS', defaultValue: '1', description: 'Number of containers to scale for myapp')
     }
     stages {
 
@@ -15,18 +18,22 @@ pipeline {
          stage('Check Running Container Tag') {
             steps {
                 script {
-                    // List running containers and filter based on image name
+                    // Get the running container tag using bash -c
                     def runningTag = sh(
-                        script: "docker ps --format '{{.Image}}' | grep -oP '${IMAGE}:.*' | cut -d':' -f2",
+                        script: """
+                        bash -c "docker ps --format '{{.Image}}' | grep '${IMAGE}:' | cut -d':' -f2 | head -n 1"
+                        """,
                         returnStdout: true
                     ).trim()
                     
+                    // Check if the tag exists
                     if (runningTag) {
-                        echo "Currently running container is using tag: ${runningTag}"
-                        env.TAG = runningTag
+                        env.TAG = runningTag // Save to env.TAG
+                        echo "Currently running container is using tag: ${TAG} "
+                        
                     } else {
-                         echo "No running container found for the image: ${IMAGE}"
-                         error "No running container found for the specified image. Exiting pipeline."
+                        echo "No running container found for the image: ${IMAGE}"
+                        error "No running container found for the specified image. Exiting pipeline."
                     }
                 }
             }
@@ -36,6 +43,9 @@ pipeline {
         stage('PRE-Deployment') {
             steps {
                 sh "sed -i 's|IMAGE_TAG|${IMAGE}:${TAG}|g' docker-compose.yml"
+                sh "mkdir ${STACK_NAME} || true"
+                sh "mv docker-compose.yml ${STACK_NAME}"
+                
             }
         }
 
@@ -47,7 +57,7 @@ pipeline {
             }
             steps {
                 script {
-                    sh "docker-compose scale myapp=${params.NB_CONTAINERS}"
+                    sh "docker-compose -f ${STACK_NAME}/docker-compose.yml scale myapp=${params.NB_CONTAINERS}"
                 }
             }
         }
@@ -55,9 +65,18 @@ pipeline {
         stage('Reload Nginx Container') {
             steps {
                 script {
-                    sh "docker-compose exec -T nginx nginx -s reload"
+                    sh "docker-compose -f ${STACK_NAME}/docker-compose.yml exec -T nginx nginx -s reload"
                 }
             }
         }
+        
+        stage('Clean Temp Dir') {
+            steps {
+                script {
+                    sh "rm -rf ${STACK_NAME} || true"
+                }
+            }
+        }
+        
     }
 }

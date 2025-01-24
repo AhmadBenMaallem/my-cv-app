@@ -1,10 +1,41 @@
 pipeline {
     agent any
+    environment {
+        IMAGE = "abmtrigger"
+        TAG = "latest" // Default value for TAG
+    }
     stages {
 
         stage('Clone') {
             steps {
                 checkout scm
+            }
+        }
+
+         stage('Check Running Container Tag') {
+            steps {
+                script {
+                    // List running containers and filter based on image name
+                    def runningTag = sh(
+                        script: "docker ps --filter 'ancestor=${IMAGE}' --format '{{.Image}}' | grep '${IMAGE}:' | cut -d':' -f2",
+                        returnStdout: true
+                    ).trim()
+                    
+                    if (runningTag) {
+                        echo "Currently running container is using tag: ${runningTag}"
+                        env.TAG = runningTag
+                    } else {
+                         echo "No running container found for the image: ${IMAGE}"
+                         error "No running container found for the specified image. Exiting pipeline."
+                    }
+                }
+            }
+        }
+
+
+        stage('PRE-Deployment') {
+            steps {
+                sh "sed -i 's|IMAGE_TAG|${IMAGE}:${TAG}|g' docker-compose.yml"
             }
         }
 

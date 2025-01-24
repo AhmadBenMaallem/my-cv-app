@@ -1,0 +1,50 @@
+pipeline {
+    agent any
+    environment {
+        IMAGE = "abmtrigger"
+        STACK_NAME = "trigger_my-cv-app_deployment"
+    }
+    parameters {
+        choice(
+            name: 'ACTION',
+            choices: ['stop', 'down'],
+            description: 'Choose the Docker Compose action to perform: stop or down'
+        )
+    }
+    stages {
+
+        stage('Clone') {
+            steps {
+                checkout scm
+            }
+        }
+
+
+        stage('PRE-$ACTION') {
+            steps {
+                //sh "sed -i 's|IMAGE_TAG|${IMAGE}:${TAG}|g' docker-compose.yml"
+                sh "mkdir ${STACK_NAME} || true"
+                sh "mv docker-compose.yml ${STACK_NAME}"
+                
+            }
+        }
+
+        stage('$ACTION my app') {
+            steps {
+                script {
+                    sh "docker-compose -f ${STACK_NAME}/docker-compose.yml $ACTION"
+                }
+            }
+        }
+
+        
+        stage('Clean Temp Dir') {
+            steps {
+                script {
+                    sh "rm -rf ${STACK_NAME} || true"
+                }
+            }
+        }
+        
+    }
+}
